@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Thực hành buổi 2</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
+</head>
+
+<body>
+
+
+    <form name="form" action="login.php" method="post" enctype="multipart/form-data" onsubmit="return check()">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <h1 style="color:red;text-align:center">Đăng ký tài khoản mới</h1>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center">Vui lòng điền đầy đủ thông tin bên dưới để đăng ký tài khoản
+                    mới</td>
+            </tr>
+            <tr>
+                <td>Tên đăng nhập:</td>
+                <td><input type="text" name="ten" onfocusout="handle()"><span id="tendangnhap1"></span></td>
+            </tr>
+            <tr>
+                <td>Mật khẩu:</td>
+                <td><input type="password" name="matkhau"><span id="matkhaudangnhap"></span></td>
+            </tr>
+            <tr>
+                <td>Gõ lại mật khẩu:</td>
+                <td><input type="password" name="matkhau2"><span id="matkhaudangnhap2"></span></td>
+            </tr>
+            <tr>
+                <td>Hình đại diện:</td>
+                <td><input type="file" name="hinh"><span id="hinhdaidien"></span></td>
+            </tr>
+            <tr>
+                <td>Giới tính:</td>
+                <td>
+                    <input type="radio" name="gender" value=0 checked> Nam
+                    <input type="radio" name="gender" value=1> Nữ
+                    <input type="radio" name="gender" value=2> Khác
+                </td>
+            </tr>
+            <tr>
+                <td>Nghề nghiệp:</td>
+                <td><select name="nghenghiep">
+                        <option value="hocsinh">Học Sinh</option>
+                        <option value="sinhvien">Sinh viên</option>
+                        <option value="giangvien">Giảng viên</option>
+                        <option value="khac">Khác</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td>Sở thích:</td>
+                <td>
+                    <input name="sothich[]" type="checkbox" name="vehicle" value="thethao" checked>Thể thao
+                    <input name="sothich[]" type="checkbox" name="vehicle" value="dulich">Du lịch
+                    <input name="sothich[]" type="checkbox" name="vehicle" value="amnhac">Âm nhạc<br>
+                    <input name="sothich[]" type="checkbox" name="vehicle" value="thoitrang">Thời trang
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" name="sign_submit" value="Đăng ký">
+
+                    <button type="reset">Làm lại</button>
+
+                </td>
+            </tr>
+
+
+        </table>
+    </form>
+    <h4>*Note:Nếu không đăng nhập đăng ký được xin thử tải với ảnh có dung lượng nhỏ hơn &lt;=2MB!</h4>
+    <script>
+        var giatri = true;
+        var pattern= /^[A-Za-z][A-za-z0-9]{5,14}$/;
+        var pattern1=/^(?=.*[0-9])(?=.*[A-Za-z])([A-Za-z0-9]){6,15}$/;
+        function check() {
+            if (document.forms["form"]["ten"].value == "") {
+                document.getElementById("tendangnhap1").innerHTML = " Xin hãy điền tên đăng nhập";
+                document.getElementById("tendangnhap1").style.color = "red";
+                giatri = false;
+            }
+            else {
+                document.getElementById("tendangnhap1").innerHTML = "";
+                if(!pattern.test(document.forms["form"]["ten"].value)){
+                    giatri=false;
+                    document.getElementById("tendangnhap1").innerHTML = " Bắt đầu phải là chữ cái, theo sau có thể là chữ cái hoặc là số; dài từ 6 đến 15 ký tự.";
+                    document.getElementById("tendangnhap1").style.color = "red";
+                }
+            }
+
+            if (document.forms["form"]["matkhau"].value == "") {
+                document.getElementById("matkhaudangnhap").innerHTML = " Xin hãy điền mật khẩu";
+                document.getElementById("matkhaudangnhap").style.color = "red";
+                giatri = false;
+            }
+            else {
+                document.getElementById("matkhaudangnhap").innerHTML = "";
+                if(!pattern1.test(document.forms["form"]["matkhau"].value)){
+                  document.getElementById("matkhaudangnhap").innerHTML = " Phải có cả chữ cái và số; không được có ký tự khác ngoài chữ cái và số; dài từ 6 đến 15 ký tự.";
+                  document.getElementById("matkhaudangnhap").style.color="red";
+                }
+            }
+
+
+            if (document.forms["form"]["matkhau2"].value == "") {
+                document.getElementById("matkhaudangnhap2").innerHTML = " Xin hãy điền lại mật khẩu";
+                document.getElementById("matkhaudangnhap2").style.color = "red";
+                giatri = false;
+            }
+            else {
+                document.getElementById("matkhaudangnhap2").innerHTML = "";
+            }
+            
+            
+            if (document.forms["form"]["matkhau2"].value != document.forms["form"]["matkhau"].value && document.forms["form"]["matkhau2"].value != "") {
+                document.getElementById("matkhaudangnhap2").innerHTML = " Mật khẩu không giống nhau";
+                document.getElementById("matkhaudangnhap2").style.color = "red";
+                giatri = false;
+            }
+           
+            
+            
+            if (document.forms["form"]["hinh"].src == "") {
+                document.getElementById("hinhdaidien").innerHTML = "Xin hãy chọn hình";
+                document.getElementById("hinhdaidien").style.color = "red";
+                giatri = false;
+            }        
+            else{
+            document.getElementById("hinhdaidien").innerHTML="";
+        }
+            return giatri;
+        }
+      function handle(){
+          var xhttp= new XMLHttpRequest();
+          xhttp.onreadystatechange=function(){
+              if(this.readyState==4 && this.status==200){
+                document.getElementById("tendangnhap1").innerHTML=this.responseText;
+              }
+          };
+        xhttp.open("GET","handle.php?id="+document.forms["form"]["ten"].value,true );
+        xhttp.send();
+      }
+    </script>
+    
+</body>
+
+</html>
